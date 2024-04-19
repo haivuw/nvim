@@ -6,6 +6,10 @@ return {
       return {}
     end,
   },
+  {
+    "hrsh7th/nvim-cmp",
+    commit = "b356f2c",
+  },
   -- {
   --   "hrsh7th/nvim-cmp",
   --   ---@param opts cmp.ConfigSchema
