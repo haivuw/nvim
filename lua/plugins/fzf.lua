@@ -22,5 +22,13 @@ return {
       { silent = true },
       desc = "status",
     },
+    {
+      "<leader>p",
+      function()
+        require("fzf-lua").lsp_workspace_symbols()
+      end,
+      { silent = true },
+      desc = "search symbols",
+    },
   },
 }
