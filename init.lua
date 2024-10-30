@@ -98,7 +98,7 @@ require("lazy").setup({
       -- Autocompletion
       "hrsh7th/nvim-cmp",
       dependencies = {
-        "hrsh7th/cmp-buffer", -- buffer completions
+        -- "hrsh7th/cmp-buffer", -- buffer completions
         "hrsh7th/cmp-path", -- path completions
       },
       config = function()
@@ -158,7 +158,6 @@ require("lazy").setup({
             },
           },
         })
-
       end,
     },
     {
@@ -166,6 +165,24 @@ require("lazy").setup({
       opts = {},
       event = "VeryLazy",
       enabled = vim.fn.has("nvim-0.10.0") == 1,
+    },
+    {
+      "stevearc/conform.nvim",
+      opts = {},
+      config = function()
+        require("conform").setup({
+          format_on_save = {
+            -- These options will be passed to conform.format()
+            timeout_ms = 500,
+            lsp_format = "fallback",
+          },
+          formatters_by_ft = {
+            lua = { "stylua" },
+            -- Conform will run the first available formatter
+            javascript = { "prettierd", "prettier", stop_after_first = true },
+          },
+        })
+      end,
     },
   },
   -- Configure any other settings here. See the documentation for more details.
@@ -200,7 +217,25 @@ vim.opt.swapfile = false -- Don't use swapfile
 vim.opt.backup = false -- Don't create backup files
 vim.opt.undofile = true -- Persistent undo
 
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
-vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Find References" })
 vim.keymap.set("n", "<C-c>", ":cclose<CR>", { silent = true, desc = "Close quickfix" })
 vim.keymap.set("n", "<Esc>", ":noh<CR>", { silent = true, desc = "Clear highlights" })
+
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
+vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Find References" })
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
+vim.keymap.set("n", "<leader>co", function()
+  vim.lsp.buf.code_action({
+    context = {
+      only = { "source.organizeImports" },
+    },
+    apply = true,
+  })
+
+  vim.lsp.buf.code_action({
+    context = {
+      only = { "source.removeUnusedImports" },
+    },
+    apply = true,
+  })
+end, { desc = "Organize Imports" })
