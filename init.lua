@@ -29,10 +29,9 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
       config = function()
-        require("nvim-treesitter.configs").setup({
+        require("nvim-treesitter").setup({
           ensure_installed = { "javascript", "typescript", "tsx" },
           auto_install = true,
-          highlight = { enable = true },
         })
       end,
     },
@@ -88,10 +87,12 @@ require("lazy").setup({
         "hrsh7th/cmp-nvim-lsp",
       },
       config = function()
-        -- require("lspconfig").ts_ls.setup({
-        --   capabilities = require("cmp_nvim_lsp").default_capabilities(),
-        -- })
-        require("lspconfig").astro.setup({})
+        vim.lsp.config("astro", {
+          cmd = { "astro-ls", "--stdio" },
+          filetypes = { "astro" },
+          root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
+        })
+        vim.lsp.enable("astro")
       end,
     },
     {
