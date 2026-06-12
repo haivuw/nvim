@@ -26,6 +26,11 @@ require("lazy").setup({
   spec = {
 
     {
+      "folke/which-key.nvim",
+      event = "VeryLazy",
+      opts = {},
+    },
+    {
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
       config = function()
