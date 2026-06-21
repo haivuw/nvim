@@ -230,7 +230,7 @@ vim.opt.number = true -- Show line numbers
 vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.signcolumn = "yes" -- Always show signcolumn
 vim.opt.cursorline = true -- Highlight current line
-vim.opt.wrap = false -- Don't wrap lines
+vim.opt.wrap = true -- Wrap lines
 
 -- Indentation
 vim.opt.expandtab = true -- Use spaces instead of tabs
