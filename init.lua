@@ -26,17 +26,32 @@ require("lazy").setup({
   spec = {
 
     {
+      "shaunsingh/nord.nvim",
+      lazy = false,
+      priority = 1000,
+      config = function()
+        vim.g.nord_italic = false
+        vim.g.nord_bold = false
+        vim.cmd.colorscheme("nord")
+      end,
+    },
+    {
       "folke/which-key.nvim",
       event = "VeryLazy",
       opts = {},
     },
     {
       "nvim-treesitter/nvim-treesitter",
+      branch = "master",
+      lazy = false,
       build = ":TSUpdate",
       config = function()
-        require("nvim-treesitter").setup({
-          ensure_installed = { "javascript", "typescript", "tsx" },
+        require("nvim-treesitter.install").ts_generate_args = { "generate", "--abi", 14 }
+        require("nvim-treesitter.configs").setup({
+          ensure_installed = { "javascript", "typescript", "tsx", "swift", "objc", "lua", "vim", "vimdoc", "json" },
           auto_install = true,
+          highlight = { enable = true },
+          indent = { enable = true },
         })
       end,
     },
@@ -173,7 +188,13 @@ vim.lsp.config("vtsls", {
   root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
 })
 
-vim.lsp.enable({ "astro", "vtsls" })
+vim.lsp.config("sourcekit", {
+  cmd = { "xcrun", "sourcekit-lsp" },
+  filetypes = { "swift", "objc", "objcpp" },
+  root_markers = { "buildServer.json", "Package.swift", ".git" },
+})
+
+vim.lsp.enable({ "astro", "vtsls", "sourcekit" })
 
 vim.opt.clipboard = "unnamedplus"
 -- UI
